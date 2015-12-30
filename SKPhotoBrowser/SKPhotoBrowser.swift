@@ -38,6 +38,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
             browserBackgroundColor = useWhiteBackgroundColor ? UIColor.whiteColor() : UIColor.blackColor()
         }
     }
+    public var doneButtonTintColor: UIColor = .whiteColor()
     
     // tool for controls
     var applicationWindow:UIWindow!
@@ -49,8 +50,12 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
     var pagingScrollView:UIScrollView!
     var panGesture:UIPanGestureRecognizer!
     var doneButton:UIButton!
-    var doneButtonShowFrame:CGRect = CGRectMake(5, 5, 44, 44)
-    var doneButtonHideFrame:CGRect = CGRectMake(5, -20, 44, 44)
+    var doneButtonShowFrame: CGRect {
+        return CGRect(x: screenBound.width - 50, y: 20 , width: 50, height: 50)
+    }
+    var doneButtonHideFrame: CGRect {
+        return CGRectOffset(doneButtonShowFrame, 0, -50)
+    }
     private var browserBackgroundColor: UIColor = UIColor.blackColor()
     
     // photo's paging
@@ -211,7 +216,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
         doneButton.backgroundColor = UIColor.clearColor()
         doneButton.addTarget(self, action: "doneButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         doneButton.alpha = 0.0
-        doneButton.tintColor = useWhiteBackgroundColor ? UIColor.blackColor() : UIColor.whiteColor()
+        doneButton.tintColor = doneButtonTintColor
         view.addSubview(doneButton)
         
         // gesture
