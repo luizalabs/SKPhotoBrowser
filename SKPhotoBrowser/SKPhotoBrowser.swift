@@ -191,7 +191,6 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
         toolCounterLabel.font  = UIFont(name: "Helvetica", size: 16.0)
         
         if useWhiteBackgroundColor {
-            toolCounterLabel.textColor =  UIColor.blackColor()
             nextBtn.tintColor = UIColor.blackColor()
             
         } else {
@@ -203,8 +202,8 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
         }
         
         previousBtn.tintColor = nextBtn.tintColor
-        
-        
+
+        toolCounterLabel.textColor =  doneButtonTintColor
         toolCounterButton = UIBarButtonItem(customView: toolCounterLabel)
         
         // close
