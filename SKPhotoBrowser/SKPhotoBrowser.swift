@@ -129,7 +129,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
         modalPresentationCapturesStatusBarAppearance = true
         modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "handleSKPhotoLoadingDidEndNotification:", name: SKPHOTO_LOADING_DID_END_NOTIFICATION, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SKPhotoBrowser.handleSKPhotoLoadingDidEndNotification(_:)), name: SKPHOTO_LOADING_DID_END_NOTIFICATION, object: nil)
     }
     
   
@@ -171,7 +171,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
         previousBtn.frame = CGRectMake(0, 0, 44, 44)
         previousBtn.imageEdgeInsets = UIEdgeInsetsMake(13.25, 17.25, 13.25, 17.25)
         previousBtn.setImage(previousImage.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        previousBtn.addTarget(self, action: "gotoPreviousPage", forControlEvents: .TouchUpInside)
+        previousBtn.addTarget(self, action: #selector(SKPhotoBrowser.gotoPreviousPage), forControlEvents: .TouchUpInside)
         previousBtn.contentMode = .Center
         toolPreviousButton = UIBarButtonItem(customView: previousBtn)
         
@@ -181,7 +181,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
         nextBtn.frame = CGRectMake(0, 0, 44, 44)
         nextBtn.imageEdgeInsets = UIEdgeInsetsMake(13.25, 17.25, 13.25, 17.25)
         nextBtn.setImage(nextImage.imageWithRenderingMode(.AlwaysTemplate), forState: .Normal)
-        nextBtn.addTarget(self, action: "gotoNextPage", forControlEvents: .TouchUpInside)
+        nextBtn.addTarget(self, action: #selector(SKPhotoBrowser.gotoNextPage), forControlEvents: .TouchUpInside)
         nextBtn.contentMode = .Center
         toolNextButton = UIBarButtonItem(customView: nextBtn)
         
@@ -213,13 +213,13 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
         doneButton.frame = doneButtonHideFrame
         doneButton.imageEdgeInsets = UIEdgeInsetsMake(15.25, 15.25, 15.25, 15.25)
         doneButton.backgroundColor = UIColor.clearColor()
-        doneButton.addTarget(self, action: "doneButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        doneButton.addTarget(self, action: #selector(SKPhotoBrowser.doneButtonPressed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         doneButton.alpha = 0.0
         doneButton.tintColor = doneButtonTintColor
         view.addSubview(doneButton)
         
         // gesture
-        panGesture = UIPanGestureRecognizer(target: self, action: "panGestureRecognized:")
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(SKPhotoBrowser.panGestureRecognized(_:)))
         panGesture.minimumNumberOfTouches = 1
         panGesture.maximumNumberOfTouches = 1
         
@@ -608,7 +608,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
         sender.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-        return result
+        return result!
     }
     
     public func imageForPhoto(photo: SKPhoto)-> UIImage?{
@@ -678,7 +678,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
             lastIndex = numberOfPhotos - 1
         }
        
-        for(var index = firstIndex; index <= lastIndex; index++){
+        for(var index = firstIndex; index <= lastIndex; index += 1){
             if !isDisplayingPageForIndex(index){
                 
                 let page = SKZoomingScrollView(frame: view.frame, browser: self)
@@ -757,7 +757,7 @@ public class SKPhotoBrowser: UIViewController, UIScrollViewDelegate{
         // reset
         cancelControlHiding()
         // start
-        controlVisibilityTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "hideControls:", userInfo: nil, repeats: false)
+        controlVisibilityTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: #selector(SKPhotoBrowser.hideControls(_:)), userInfo: nil, repeats: false)
         
     }
     
